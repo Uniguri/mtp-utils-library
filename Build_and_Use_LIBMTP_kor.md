@@ -233,6 +233,8 @@ PS ?\bin> .\test.exe
 .\setup-x86_64.exe -q -P libtool,m4,automake,libiconv-devel,gettext-devel,libusb1.0-devel,wget,gcc-g++,make,git
 ```
 
+> Cygwin에서 다음 명령어를 입력한다.
+
 ```bash
 cd ~ && mkdir build_libmtp 
 cd build_libmtp
@@ -254,7 +256,8 @@ cd libmtp
 ./autogen.sh && make
 ```
 
-> Cygwin에서 libusb 관련 패키지를 제거한다.
+> Cygwin에서 libusb 관련 패키지를 제거한다[^1].
+> 그리고 다음 명령어를 Cygwin에서 입력한다.
 
 ```bash
 cd ~/build_libmtp/libmtp
@@ -305,3 +308,5 @@ chmod 754 ./build++.sh
 ./build.sh ./src/<target> ./bin/<out>
 ./build++.sh ./src/<target> ./bin/<out>
 ```
+
+[^1]: [Troubleshooting](#troubleshooting)

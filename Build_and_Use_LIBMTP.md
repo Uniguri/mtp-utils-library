@@ -235,6 +235,8 @@ PS ?\bin> .\test.exe
 .\setup-x86_64.exe -q -P libtool,m4,automake,libiconv-devel,gettext-devel,libusb1.0-devel,wget,gcc-g++,make,git
 ```
 
+> Then enter following commands in Cygwin.
+
 ```bash
 cd ~ && mkdir build_libmtp 
 cd build_libmtp
@@ -256,7 +258,8 @@ cd libmtp
 ./autogen.sh && make
 ```
 
-> Remove libusb-related packages from Cygwin.
+> Remove libusb-related packages from Cygwin[^1].
+> Then enter following commands on Cygwin.
 
 ```bash
 cd ~/build_libmtp/libmtp
@@ -307,3 +310,5 @@ chmod 754 ./build++.sh
 ./build.sh ./src/<target> ./bin/<out>
 ./build++.sh ./src/<target> ./bin/<out>
 ```
+
+[^1]: [Troubleshooting](#troubleshooting)
