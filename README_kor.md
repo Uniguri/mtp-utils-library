@@ -29,7 +29,7 @@ C++ library for using LIBMTP.
 
 우선 MTP 통신을 사용하기 위해서는 libmtp를 사용하는 것이 가장 편하다. libmtp를 윈도우에서 사용하기 위한 방법은 다음을 참고한다.
 
-[libmtp 빌드 및 사용](./Build_and_Use_LIBMTP_kr.md)
+[libmtp 빌드 및 사용](./Build_and_Use_LIBMTP_kor.md)
 
 libmtp를 사용할 수 있는 환경을 구축한 뒤에 VIsual Studio에서 개발을 할 폴더를 연다. 그 뒤, `CppProperties.json` 이라는 파일을 만들고 다음과 같은 내용을 작성한다.
 
@@ -151,7 +151,7 @@ clean:
 
 ## Document
 
-[mtp-utils Document](./MTP_Utils_Document_kr.md)
+[mtp-utils Document](./MTP_Utils_Document_kor.md)
 
 [^1]: https://github.com/jabezwinston/mtp-tools
 [^2]: https://github.com/libmtp/libmtp
