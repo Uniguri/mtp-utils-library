@@ -1,3 +1,17 @@
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Prepare to build libmtp](#prepare-to-build-libmtp)
+  - [Install Cygwin \& dependencies](#install-cygwin--dependencies)
+  - [Build libusb](#build-libusb)
+- [Build libmtp](#build-libmtp)
+  - [Troubleshooting](#troubleshooting)
+  - [Bulid](#bulid)
+- [Build application using libmtp](#build-application-using-libmtp)
+  - [Build test](#build-test)
+- [Summary for building libmtp](#summary-for-building-libmtp)
+- [Summary for building development environment](#summary-for-building-development-environment)
+
+
 # Prepare to build libmtp
 
 ## Install Cygwin & dependencies

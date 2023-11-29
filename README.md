@@ -1,6 +1,18 @@
 # MTP-Utils-Libarary
 C++ library for using LIBMTP.
 
+# Table of Contents
+- [MTP-Utils-Libarary](#mtp-utils-libarary)
+- [Table of Contents](#table-of-contents)
+- [Overview](#overview)
+- [Build your environment](#build-your-environment)
+- [Usage](#usage)
+  - [Preparing](#preparing)
+    - [How to build](#how-to-build)
+    - [Driver settings](#driver-settings)
+- [Document](#document)
+
+
 # Overview
 
 There are tools which make us to use MTP on CLI in Windows but most of them did not work except mtp-tools by jabezwinston[^1]. The mtp-tools is not efficient since it is just compiled binary of exaples of LIBMTP. The reason is following:
@@ -134,7 +146,7 @@ The completed directory tree looks like this
 > [!NOTE]
 > If you want to change the driver back to the original, you can find DBI in Device Manager and select Uninstall Device (Uninstall Driver).
 
-## Document
+# Document
 
 [mtp-utils Document](./MTP_Utils_Document.md)
 
