@@ -2,7 +2,9 @@
 
 ## MTP
 
-Class for using MTP connection. When you create this class, it cache all of the Device information and Storage, Folder, File, etc. information.
+MTP 연결을 사용하기 위한 클래스이다. 이 클래스를 생성하면 MTP 장치에서 Device 정보와 Storage, Folder, File 등의 정보를 모두 캐싱한다.
+
+만약 파일 업로드, 다운로드, 삭제 등의 동작을 수행하면 캐싱된 정보에도 영향을 준다.
 
 ### GetError
 
@@ -10,9 +12,9 @@ Class for using MTP connection. When you create this class, it cache all of the 
 
 ### GetDevices
 
-Returns an iterator that traverses the Device.
+Device(장치)를 순회하는 이터레이터를 반환한다.
 
-Use this following:
+다음과 같이 사용한다.
 
 ```cpp
 for (auto& device : mtp.GetDevices())
@@ -41,7 +43,7 @@ for (auto& device : mtp.GetDevices())
 
 ### SetDebugLevel
 
-Set the debug level of LIBMTP. The debug level is as follows
+LIBMTP의 Debug level을 설정한다. Debug level은 다음과 같다.
 
 ```cpp
 #define LIBMTP_DEBUG_NONE		0x00
@@ -54,7 +56,7 @@ Set the debug level of LIBMTP. The debug level is as follows
 
 ## Device
 
-A class that represents a Device. It is created automatically when you create an MTP class.
+Device(장치)를 나타내는 클래스이다. MTP 클래스를 생성하면 자동으로 생성된다.
 
 ### GetDeviceNumber
 
@@ -72,9 +74,9 @@ A class that represents a Device. It is created automatically when you create an
 
 ### GetStorages
 
-Returns an iterator that traverses the Storage.
+Storage를 순회하는 이터레이터를 반환한다.
 
-Use this following:
+사용 방법은 다음과 같다.
 
 ```cpp
 for (auto& storage : device.GetStorages())
@@ -129,9 +131,9 @@ for (auto& storage : device.GetStorages())
 
 ### ReceiveFile
 
-Receive a target file from device.
+특정 파일을 기기에서 다운로드 한다.
 
-Use this following:
+사용 방법은 다음과 같다.
 
 ```cpp
 for (auto& file : storage.GetFilesOnRoot())
@@ -142,9 +144,9 @@ for (auto& file : storage.GetFilesOnRoot())
 
 ### SendFile
 
-Send a target file to device.
+특정 파일을 기기로 전송한다.
 
-Use this following:
+사용 방법은 다음과 같다.
 
 ```cpp
 storage.SendFile("C:/blah/blah/blah/temp.txt", folder);
@@ -152,9 +154,9 @@ storage.SendFile("C:/blah/blah/blah/temp.txt", folder);
 
 ### DeleteFile
 
-Erase a target file on device.
+기기의 특정 파일을 지운다.
 
-Use this following:
+사용 방법은 다음과 같다.
 
 ```cpp
 storage.DeleteFile(*file);
@@ -162,10 +164,9 @@ storage.DeleteFile(*file);
 
 ### SetFileName
 
-Rename a target file.
-Return a new name of the file.
+주어진 문자열로 파일의 이름을 변경한다. 파일의 새로운 이름을 반환한다.
 
-Use this following:
+사용 방법은 다음과 같다.
 
 ```cpp
 std::string new_name = storage.SetFileName(file, "new_name");
@@ -187,9 +188,7 @@ std::string new_name = storage.SetFileName(file, "new_name");
 
 ### GetFoldersOnRoot
 
-Returns an iterator that traverses the folders in the root.
-
-Use this following:
+루트에 있는 폴더를 순회는 이터레이터를 반환한다.
 
 ```cpp
 for (auto& folder : storage.GetFoldersOnRoot())
@@ -200,9 +199,7 @@ for (auto& folder : storage.GetFoldersOnRoot())
 
 ### GetFilesOnRoot
 
-Returns an iterator that traverses the files in the root.
-
-Use this following:
+루트에 있는 파일을 순회하는 이터레이터를 반환한다.
 
 ```cpp
 for (auto& file : storage.GetFilesOnRoot())
@@ -213,9 +210,7 @@ for (auto& file : storage.GetFilesOnRoot())
 
 ### GetAllChildFolders
 
-Returns an iterator that traverses all the folders that exist in this Storage.
-
-Use this following:
+해당 Storage에 존재하는 모든 폴더 순회하는 이터레이터를 반환한다.
 
 ```cpp
 for (auto& folder : storage.GetAllChildFolders())
@@ -252,10 +247,11 @@ for (auto& folder : storage.GetAllChildFolders())
 
 ### GetChildFoldersOnlyOnThis
 
-Returns an iterator that traverses all the folders that exist in the target folder.
+현재 폴더에 존재하는 모든 폴더를 순회하는 이터레이터를 반환한다.
 
-For example, if the directory structure is as follows, it will traverse DIR0, DIR1, and DIR2. However, the order is not in name order.
-```
+예를 들어 디렉토리 구조가 다음과 다음과 같다면 DIR0, DIR1, DIR2를 순회한다. 다만, 순서는 이름 순이 아니다.
+
+```cpp
 <Now Folder>
 ├─DIR0
 │  ├─SUBDIR0
@@ -268,7 +264,7 @@ For example, if the directory structure is as follows, it will traverse DIR0, DI
 └─DIR2
 ```
 
-Use this following:
+사용 방법은 다음과 같다.
 
 ```cpp
 for (auto& folder : some_folder.GetChildFoldersOnlyOnThis())
@@ -279,9 +275,9 @@ for (auto& folder : some_folder.GetChildFoldersOnlyOnThis())
 
 ### GetChildFilesOnlyOnThis
 
-Returns an iterator that traverses all the files in the target folder.
+현재 폴더에 존재하는 모든 파일을 순회하는 이터레이터를 반환한다.
 
-For example, if the directory structure looks like this, it will traverse FILE0, FILE1. However, the order is not by name.
+예를 들어 디렉토리 구조가 다음과 같다면 FILE0, FILE1을 순회한다. 다만, 순서는 이름 순이 아니다.
 
 ```cpp
 <Now Folder>
@@ -300,7 +296,7 @@ For example, if the directory structure looks like this, it will traverse FILE0,
         FILE0
 ```
 
-Use this following:
+사용 방법은 다음과 같다.
 
 ```cpp
 for (auto& file: some_folder.GetChildFilesOnlyOnThis())
@@ -311,11 +307,11 @@ for (auto& file: some_folder.GetChildFilesOnlyOnThis())
 
 ### GetAllChildFolders
 
-Returns an iterator that traverses all folders that exist under the current folder.
+현재 폴더의 하위에 존재하는 모든 폴더를 순회하는 이터레이터를 반환한다.
 
-For example, if the directory structure is DIR0, SUBDIR0, SUBDIR1, DIR1, SUBDIR0, SUBSUBDIR0, SUBSUBDIR1, SUBSUBDIR2, DIR2. However, the order is not by name.
+예를 들어, 디렉토리 구조가 다음과 같다면 DIR0, SUBDIR0, SUBDIR1, DIR1, SUBDIR0, SUBSUBDIR0, SUBSUBDIR1, SUBSUBDIR2, DIR2를 순회한다. 다만, 순서는 이름 순이 아니다.
 
-However, the subfolders are returned after the parent folder is returned, i.e. SUBDIR0 cannot be returned before DIR0.
+하지만 상위 폴더가 반환된 후 하위 폴더를 반환한다. 즉 SUBDIR0가 DIR0보다 먼저 반환될 수는 없다.
 
 ```cpp
 <Now Folder>
@@ -330,7 +326,7 @@ However, the subfolders are returned after the parent folder is returned, i.e. S
 └─DIR2
 ```
 
-Use this following:
+사용하는 방법은 다음과 같다.
 
 ```cpp
 for (auto& folder : some_folder.GetAllChildFolders())
@@ -355,9 +351,9 @@ for (auto& folder : some_folder.GetAllChildFolders())
 
 # Example
 
-## Replace a file with a specific name that exists in your device's save file folder
+## 기기의 세이브 파일 폴더에 존재하는 특정 이름의 파일 교체
 
-The code to replace a file with a specific name ("course_thumb_\d{3}") that exists in your save file folder ("Super Mario Maker 2/shm") with a file on your PC ("C:/SMM2Fuzzing/tmp/course_thumb_\d{3}") is as follows.
+세이브 파일 폴더(”슈퍼 마리오 메이커 2/shm”)에 존재하는 특정 이름의 파일(”course_thumb_\d{3}”)을 PC에 있는 파일(”C:/SMM2Fuzzing/tmp/course_thumb_\d{3}”)으로 교체하는 코드는 다음과 같다.
 
 ```cpp
 MTP mtp;
@@ -373,7 +369,7 @@ if (mtp.IsSuccess())
         return 0;
     std::cout << storage->GetStorageDescription() << " is found!" << std::endl;
 
-    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2"); // Super mario maker 2
+    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2");
     if (!smm2)
         return 0;
     std::cout << smm2->GetFolderName() << " is found!" << std::endl;
@@ -407,9 +403,9 @@ if (mtp.IsSuccess())
 }
 ```
 
-## Receive the save file folder
+## 세이브 파일 폴더 다운로드 받기
 
-The following code will receive the Super Mario Maker 2 save file folder ("Super Mario Maker 2/shm") to a folder on your PC ("C:/SMM2Fuzzing/").
+슈퍼 마리오 메이커 2의 세이브 파일 폴더(”슈퍼 마리오 메이커 2/shm”)를 PC의 폴더(”C:/SMM2Fuzzing/”)에 다운로드 받는 코드는 다음과 같다.
 
 ```cpp
 MTP mtp;
@@ -425,7 +421,7 @@ if (mtp.IsSuccess())
         return 0;
     std::cout << storage->GetStorageDescription() << " is found!" << std::endl;
 
-    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2"); // Super mario maker 2
+    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2");
     if (!smm2)
         return 0;
     std::cout << smm2->GetFolderName() << " is found!" << std::endl;
@@ -434,9 +430,9 @@ if (mtp.IsSuccess())
 }
 ```
 
-## Print directory tree of the device
+## 기기에 존재하는 모든 파일 보기
 
-The following code will print all the folders and files that exist on your device in a tree structure.
+기기에 존재하는 모든 폴더와 파일을 트리 구조로 출력하는 프로그램은 다음과 같다.
 
 ```cpp
 MTP mtp;
@@ -466,7 +462,7 @@ if (mtp.IsSuccess())
 }
 ```
 
-## Tools for SMM2 Fuzzers
+## SMM2 퍼저를 위한 툴
 
 ```cpp
 #include <iostream>
@@ -490,7 +486,7 @@ void ReplaceThumbnails(MTP& mtp, const std::string& username, const std::filesys
         return;
     std::cout << storage->GetStorageDescription() << " is found!" << std::endl;
 
-    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2"); // Super mario maker 2
+    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2");
     if (!smm2)
         return;
     std::cout << smm2->GetFolderName() << " is found!" << std::endl;
@@ -534,7 +530,7 @@ void DumpSMM2SaveFiles(MTP& mtp, const std::string& username, const std::filesys
         return;
     std::cout << storage->GetStorageDescription() << " is found!" << std::endl;
 
-    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2"); // Super mario maker 2
+    Folder* smm2 = storage->FindFolderByExactName("슈퍼 마리오 메이커 2");
     if (!smm2)
         return;
     std::cout << smm2->GetFolderName() << " is found!" << std::endl;
@@ -641,7 +637,7 @@ int main(int argc, char** argv)
 }
 ```
 
-## Tools for ACNH purging
+## NH 퍼징을 위한 툴
 
 ```cpp
 #include <iostream>
@@ -665,7 +661,7 @@ void ReplaceSaveFolder(MTP& mtp, const std::filesystem::path& save_folder_locati
         return;
     std::cout << storage->GetStorageDescription() << " is found!" << std::endl;
 
-    Folder* nh = storage->FindFolderByExactName("모여봐요 동물의 숲"); // Animal crossing new horizon
+    Folder* nh = storage->FindFolderByExactName("모여봐요 동물의 숲");
     if (!nh)
         return;
     std::cout << nh->GetFolderName() << " is found!" << std::endl;
@@ -713,7 +709,7 @@ void DumpNHSaveFolder(MTP& mtp, const std::filesystem::path& location)
         return;
     std::cout << storage->GetStorageDescription() << " is found!" << std::endl;
 
-    Folder* nh = storage->FindFolderByExactName("모여봐요 동물의 숲"); // Animal crossing new horizon
+    Folder* nh = storage->FindFolderByExactName("모여봐요 동물의 숲");
     if (!nh)
         return;
     std::cout << nh->GetFolderName() << " is found!" << std::endl;

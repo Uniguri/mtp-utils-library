@@ -2,13 +2,13 @@
 
 ## Install Cygwin & dependencies
 
-To build libmtp on Windows, you need to use MinGW. To use MinGW, install Cygwin. After installing Cygwin, you will be prompted to set up a proxy server to install various packages.
+윈도우에서 libmtp를 빌드하기 위해서는 MinGW를 사용해야 한다. MinGW를 사용하기 위해 Cygwin을 설치한다. Cygwin을 설치하다 보면, 각종 패키지를 설치할 프록시 서버를 설정하려고 다음과 같은 창이 나타난다.
 
 ![Cygwin Setup](./img/Cygwin_Setup_1.png)
 
-You can choose anything you want. Then, complete the installation without installing any packages.
+적당히 아무거나 선택해도 패키지는 정상적으로 설치되므로 아무거나 선택한다. (다만, 잘못 선택하면 속도가 느릴 수 있다.) 그 뒤, 아무런 패키지도 설치하지 않고 설치를 완료한다.
 
-Then you can use the downloaded Cygwin installation file, `setup-x86_64.exe`, and enter the following command.
+설치가 완료되면 다운로드 받은 Cygwin 설치 파일인 `setup-x86_64.exe`을 사용해서 다음과 같은 명령어를 입력하면 된다.
 
 ```bash
 .\setup-x86_64.exe -q -P libtool,m4,automake,libiconv-devel,gettext-devel,libusb1.0-devel,wget,gcc-g++,make,git
@@ -16,7 +16,7 @@ Then you can use the downloaded Cygwin installation file, `setup-x86_64.exe`, an
 
 ## Build libusb
 
-The libusb installed by Cygwin is not the compatible version as the libusb used by libmtp, which causes errors during compilation. Therefore, in order to build libmtp, it is necessary to build libusb. Enter the command below to build libusb.
+Cygwin에서 설치되는 libusb는 libmtp에서 사용하는 libusb와 버전이 맞지 않아 컴파일 과정에서 오류가 발생한다. 따라서 libmtp를 빌드하기 위해서는 libusb를 빌드할 필요가 있다. 아래의 명령어를 입력하면, libusb를 빌드한다.
 
 ```bash
 cd ~ && mkdir build_libmtp 
@@ -26,7 +26,7 @@ cd libusb
 ./autogen.sh && make
 ```
 
-After the build is complete, look in `~/build_libmtp/libusb/libusb/.libs` and you will see `cygusb-1.0.dll`, `libusb-1.0.a`, and `libusb-1.0.dll.a`. Enter the following commands to move these files to `~/build_libmtp/dep/lib` and move `~/build_libmtp/libusb/libusb.h` to `~/build_libmtp/dep/include`.
+빌드가 완료된 후, `~/build_libmtp/libusb/libusb/.libs`를 보면 `cygusb-1.0.dll`와 `libusb-1.0.a`, `libusb-1.0.dll.a`가 존재한다. 이 파일들을 `~/build_libmtp/dep/lib`로 옮기고, `~/build_libmtp/libusb/libusb/libusb.h`를 `~/build_libmtp/dep/include`로 옮기기 위해 다음 명령어를 입력한다. 
 
 ```bash
 cd ~/build_libmtp && mkdir dep
@@ -40,7 +40,7 @@ cp libusb/libusb/libusb.h dep/include
 
 # Build libmtp
 
-Enter the following commands to create a configure file and a Makefile to build libmtp.
+libmtp를 빌드하기 위한, configure파일과 Makefile을 만들기 위해 다음 명령어를 입력한다.
 
 ```bash
 cd ~/build_libmtp
@@ -49,7 +49,7 @@ cd libmtp
 ./autogen.sh && make
 ```
 
-In my case, I got the following error
+내 경우 다음과 같은 오류가 발생했다.
 
 ```bash
 /bin/sh ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..    -I/usr/include/libusb-1.0 -g -O2 -Wall -Wmissing-prototypes -MT libmtp_la-libusb1-glue.lo -MD -MP -MF .deps/libmtp_la-libusb1-glue.Tpo -c -o libmtp_la-libusb1-glue.lo `test -f 'libusb1-glue.c' || echo './'`libusb1-glue.c
@@ -67,13 +67,13 @@ libusb1-glue.c:167:46: note: each undeclared identifier is reported only once fo
 
 ## Troubleshooting
 
-The above error occurs because the version of libusb is incompatible with the version used by libmtp. To fix this, first remove libusb from Cygwin. This can be done by using the Cygwin installation file `setup-x86_64.exe` to remove all packages related to libusb.
+위 에러는 libusb의 버전이 libmtp에서 사용하는 버전과 맞지 않아서 발생한다. 이를 해결하기 위해, 우선 Cygwin에 깔린 libusb를 제거한다. Cygwin 설치 파일인 `setup-x86_64.exe`를 사용하여 libusb와 관련된 모든 패키지를 제거하면 된다.
 
-You can do this by setting View to Full, searching for libusb, and replacing New in the package with Current with Uninstall.
+View를 Full로 설정하고, libusb를 검색한 뒤에 Current가 있는 패키지의 New를 Uninstall로 바꾸면 된다.
 
 ![Cygwin Setup](./img/Cygwin_Setup_2.png)
 
-Next, enter the following command to change the location of libusb in libmtp's makefile.
+그 뒤, Makefile에 적힌 libusb의 위치를 변경하기 위해 다음 명령어를 입력한다.
 
 ```bash
 cd ~/build_libmtp/libmtp
@@ -83,13 +83,13 @@ sed -i 's\-I/usr/include/libusb-1.0\-I$${HOME}/build_libmtp/dep/include -L$${HOM
 
 ## Bulid
 
-Now, to build libmtp, you can type the following command
+이제 libmtp를 빌드하기 위해 다음 명령어를 입력하면 된다.
 
 ```bash
 make
 ```
 
-When the build is complete, `cygmtp-9.dll`, `libmtp.a`, and `libmtp.dll.a` exist in `~/build_libmtp/libmtp/src/.libs`. Enter the following command to move these files to `~/build_libmtp/dep/lib` and move `~/build_libmtp/libmtp/src/libmtp.h` to `~/build_libmtp/dep/include`.
+빌드가 완료되면, `~/build_libmtp/libmtp/src/.libs`에 `cygmtp-9.dll`, `libmtp.a`, `libmtp.dll.a`가 존재한다. 이 파일들을 `~/build_libmtp/dep/lib`로 옮기고, `~/build_libmtp/libmtp/src/libmtp.h`를 `~/build_libmtp/dep/include`로 옮기기 위해 다음 명령어를 입력한다.
 
 ```bash
 cd ~/build_libmtp
@@ -99,7 +99,7 @@ cp libmtp/src/.libs/libmtp.dll.a dep/lib
 cp libmtp/src/libmtp.h dep/include
 ```
 
-Finally, save the dep folder to `/usr/libmtp` for future convenience.
+마지막으로 추후 편리함을 위해 dep 폴더를 `/usr/libmtp`에 저장한다.
 
 ```bash
 cp ~/build_libmtp/dep /usr/libmtp -r
@@ -107,7 +107,7 @@ cp ~/build_libmtp/dep /usr/libmtp -r
 
 # Build application using libmtp
 
-To create an application that uses libmtp, it is convenient to create a directory structure that looks like this
+libmtp를 사용하는 어플리케이션을 만들기 위해 다음과 같은 디렉토리 구조를 만들면 편하다.
 
 ```bash
 <application folder>
@@ -124,7 +124,7 @@ To create an application that uses libmtp, it is convenient to create a director
 └─src
 ```
 
-The command to create the above structure is following:
+위 구조를 만드는 명령어는 다음과 같다.
 
 ```bash
 mkdir src
@@ -149,7 +149,7 @@ EOF
 chmod 754 ./build++.sh
 ```
 
-You can write your program in src and then compile it with the following command.
+src에 원하는 프로그램을 작성한 뒤, 다음 명령어를 통해 컴파일하면 된다.
 
 ```bash
 ./build.sh ./src/<target> ./bin/<out>
@@ -158,7 +158,7 @@ You can write your program in src and then compile it with the following command
 
 ## Build test
 
-To verify that it compiles correctly, write the following source code in src.
+정상적으로 컴파일이 되는지 확인하기 위해, src에 다음과 같은 소스코드를 작성한다.
 
 ```c
 // test.c
@@ -195,17 +195,16 @@ int main (int argc, char **argv)
 }
 ```
 
-Then compile it with the following command
+그 뒤, 다음 명령어를 통해 컴파일한다.
 
 ```bash
 ./build.sh ./src/test.c ./bin/test
 ```
 
-If it compiled successfully, `bin/test.exe` should exist. If you remove all MTP devices and then run the program, you should see the following message.
+정상적으로 컴파일이 됐다면, `bin/test.exe`가 존재한다. 모든 MTP 장치를 제거한 다음, 해당 프로그램을 실행하면 다음과 같은 메세지가 출력된다.
 
-> [!IMPORTANT]
-> It should be run from a Windows terminal, not cygwin.
-> If you want to run it in cygwin, you can remove `bin/cygwin1.dll`, `bin/cygstdc++-6.dll`, and `bin/cyggcc_s-seh-1.dll`.
+> 주의 : cygwin이 아닌, 윈도우 터미널에서 실행해야 합니다. 
+만약, cygwin에서 실행하고 싶다면, `bin/cygwin1.dll`, `bin/cygstdc++-6.dll`, `bin/cyggcc_s-seh-1.dll`을 제거하면 됩니다.
 
 ```bash
 PS ?\bin> .\test.exe
@@ -214,8 +213,7 @@ PS ?\bin> .\test.exe
 
 # Summary for building libmtp
 
-> Install Cygwin.
-> Then enter following commands.
+> Cygwin을 설치한다.
 
 ```bash
 .\setup-x86_64.exe -q -P libtool,m4,automake,libiconv-devel,gettext-devel,libusb1.0-devel,wget,gcc-g++,make,git
@@ -242,7 +240,7 @@ cd libmtp
 ./autogen.sh && make
 ```
 
-> Remove libusb-related packages from Cygwin.
+> Cygwin에서 libusb 관련 패키지를 제거한다.
 
 ```bash
 cd ~/build_libmtp/libmtp
@@ -262,7 +260,7 @@ cp ~/build_libmtp/dep /usr/libmtp -r
 
 # Summary for building development environment
 
-> Create a directory where you want to create your application, and navigate to it.
+> 어플리케이션을 만들 디렉토리를 만들고, 그 디렉토리로 이동한다.
 
 ```bash
 mkdir src
@@ -287,7 +285,7 @@ EOF
 chmod 754 ./build++.sh
 ```
 
-> Write the desired code in src.
+> src에 원하는 코드를 작성한다.
 
 ```bash
 ./build.sh ./src/<target> ./bin/<out>
